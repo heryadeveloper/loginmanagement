@@ -1,0 +1,1 @@
+module.exports.accountDataGuruKaryawanRepository = require('./account_guru_karyawan.repository');

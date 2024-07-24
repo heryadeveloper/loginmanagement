@@ -1,0 +1,1 @@
+module.exports.accountGuruKaryawanService = require('./account_guru_karyawan.service');

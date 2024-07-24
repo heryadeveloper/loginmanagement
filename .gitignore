@@ -1,0 +1,5 @@
+node_modules/
+.drawio
+.http
+.env
+src/test
