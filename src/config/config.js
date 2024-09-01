@@ -17,7 +17,7 @@ const envVarsSchema = Joi.object()
         SQL_DATABASE_NAME: Joi.string().description('sqldb database name'),
         SQL_PASSWORD: Joi.string().description('sql password'),
         SQL_DIALECT: Joi.string()
-            .default('postgres')
+            .default('mysql')
             .description('type of sqldb'),
         SQL_MAX_POOL: Joi.number()
 			.default(10)
