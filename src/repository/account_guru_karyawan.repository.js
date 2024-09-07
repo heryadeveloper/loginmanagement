@@ -31,8 +31,31 @@ async function getAccountByEmailGuru(username, email){
     return accountGuru;
 }
 
+async function getValidasiEmail(email){
+    const validasiEmail = await db.account_guru_karyawan.findOne({
+        where: {email},
+        attributes:['email','password','flag_active'],
+        raw:true,
+    });
+    return validasiEmail;
+}
+
+async function insertAccount(nama, email, username, password, role_name, id_role){
+    try {
+        const insertData = await db.account_guru_karyawan.create({
+            nama, email, username, password, role_name, flag_active:"ACTIVE", created_at: new Date(), id_role,
+        });
+        return insertData.get({ plain:true });
+    } catch (error) {
+        console.error('Error when insert table account_guru_karyawan', error);
+        throw error;
+    }
+}
+
 
 module.exports = {
     getDataAccountGuru,
-    getAccountByEmailGuru
+    getAccountByEmailGuru,
+    getValidasiEmail,
+    insertAccount
 }

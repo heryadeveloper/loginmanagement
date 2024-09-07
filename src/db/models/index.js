@@ -15,6 +15,9 @@ const sequelize = new Sequelize(
     {
         ...config.sqlDB,
         logging: false,
+		dialectOptions: {
+			timezone: '+07:00',
+		},
     }
 );
 

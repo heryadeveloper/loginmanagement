@@ -1,8 +1,9 @@
 const express = require('express');
 const redisClient = require('./config/init_redis');
-const postgres = require('./config/postgres');
+const mysql = require('./config/mysql');
 const config = require('./config/config');
 const authRoutes = require('./route/authRoutes');
+const routing = require('./route');
 const bodyParser = require('body-parser');
 
 const cors = require('cors');
@@ -20,7 +21,7 @@ app.use((req, res, next) => {
 
 // connect to postgress database
 app.use((req, _, next) => {
-    req.postgres = postgres;
+    req.postgres = mysql;
     next();
 })
 
@@ -37,5 +38,6 @@ app.use((req, res, next) => {
 
 // mount routes
 app.use('/v1/auth', authRoutes);
+app.use('/v1', routing);
 
 module.exports = app;

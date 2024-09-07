@@ -1,0 +1,1 @@
+module.exports.signupguruValidation = require('./signupguru.validation');

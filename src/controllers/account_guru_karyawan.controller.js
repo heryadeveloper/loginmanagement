@@ -8,33 +8,6 @@ const JWT = require('jsonwebtoken');
 const config = require("../config/config");
 
 
-// const getUserGuruLogin = catchAsync(async(req, res) => {
-//     try {
-//         const loginDataGuru = await accountGuruKaryawanService.getAccountGuruLogin(req);
-//         if (loginDataGuru.length === 0) {
-//             res.status(404).send(errorNotFound('Not Found this Account', loginDataGuru));
-//         } else {
-//             const accessToken = await signAccessToken(loginDataGuru.nama)
-//             console.log('access token', accessToken);
-//             const refreshToken = await signRefreshToken(loginDataGuru.nama)
-//             console.log('refresh token : ', refreshToken);
-//             const responseData = {
-//                 ...loginDataGuru,
-//                 tokens: {accessToken, refreshToken},
-//             };
-//             console.log('response data : ', responseData);
-//             res.send(responses('Found this account guru', responseData));
-//         }
-//     } catch (error) {
-//         console.error('Error:', error);
-//         res.status(error.statusCode).send(internalServerError('Service Not Ok', error.statusCode, error.message, null));
-//     }
-// });
-
-// module.exports = {
-//     login,
-// };
-
 
 class AuthController {
     static async login(req, res, next) {
