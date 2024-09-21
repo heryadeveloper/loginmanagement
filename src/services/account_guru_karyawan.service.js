@@ -4,7 +4,7 @@ const db = require('../db/models');
 const JWT = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('../config/config');
-const { accountDataGuruKaryawanRepository } = require("../repository");
+const { accountDataGuruKaryawanRepository, accountDataSiswaRepository } = require("../repository");
 
 async function getAccountGuruLogin(req, res){
     try {
@@ -31,7 +31,7 @@ const generateAccessToken = (user) => {
 
 const generateRefreshToken = (user) =>{
     return JWT.sign({ userId: user.id, role: user.role }, config.refreshToken, {
-        expiresIn: '7d',
+        expiresIn: '1h',
         issuer: 'login_management',
         audience: String(user.id),
     });
@@ -55,7 +55,36 @@ const login = async(username, email, password) => {
     return { user, accessToken, refreshToken };
 };
 
+const loginSiswa = async(username, email, password) => {
+    try {
+        const userSiswa = await accountDataSiswaRepository.getAccountByEmailSiswa(username, email);
+      
+        if (!userSiswa) {
+            throw new Error('Invalid Email');
+        }
+
+        const isPasswordMatch = await validatePassword(password, userSiswa.password);
+        if (!isPasswordMatch) {
+            throw new Error('Invalid Password');
+        }
+
+        const accessToken = generateAccessToken(userSiswa);
+        
+        const refreshToken = generateRefreshToken(userSiswa);
+  
+        return {
+            userSiswa,
+            accessToken,
+            refreshToken
+        }
+    } catch (error) {
+        console.error('Error in service');
+        throw error;
+    }
+}
+
 module.exports = {
     getAccountGuruLogin,
-    login
+    login,
+    loginSiswa
 }

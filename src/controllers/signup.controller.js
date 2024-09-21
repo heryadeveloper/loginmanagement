@@ -12,6 +12,16 @@ const signup = catchAsync(async(req, res) => {
     }
 });
 
+const signupSiswa = catchAsync(async(req, res) => {
+    const signUpDataSiswa = await signUpService.signUpAccountSiswa(req);
+    if (signUpDataSiswa) {
+        res.send(responseInfo('Success Created Account Siswa', signUpDataSiswa));
+    } else {
+        res.send(errorExpectationFailed('Cannot created Account Siswa', null));
+    }
+})
+
 module.exports = {
-    signup
+    signup,
+    signupSiswa
 }

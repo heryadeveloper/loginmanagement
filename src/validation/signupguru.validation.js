@@ -25,7 +25,22 @@ const registrationGuru = {
     }),
 };
 
+const createSignUpSiswa = {
+    body: Joi.object().keys({
+        username: Joi.string().required(),
+        nama: Joi.string().required(),
+        email: Joi.string().required(),
+        password: Joi.string().required(),
+        role: Joi.number().required(),
+        role_name: Joi.string().required(),
+        nisn: Joi.string().required(),
+        kelas_saat_ini: Joi.string().required(),
+        tahun_masuk: Joi.string().required()
+    })
+}
+
 module.exports = {
     createSignupguru,
-    registrationGuru
+    registrationGuru,
+    createSignUpSiswa
 }

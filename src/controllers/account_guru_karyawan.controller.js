@@ -6,6 +6,7 @@ const createError = require('http-errors');
 const redisClient = require('../config/init_redis');
 const JWT = require('jsonwebtoken');
 const config = require("../config/config");
+const { use } = require("../route/authRoutes");
 
 
 
@@ -22,12 +23,6 @@ class AuthController {
             
             // Check if the user is already logged in by checking the existence of the refresh token in Redis
             console.log('redis key:', redisKey);
-
-            // await redisClient.set('testKey', 'testValueTesting', {
-            //     EX:60,
-            // });
-            // const value = await redisClient.get('testKey');
-            // console.log('Value from Redis:', value);
 
 
             let existingToken = await redisClient.get(redisKey);
@@ -76,6 +71,46 @@ class AuthController {
             console.error('Error in logout: ', error);
             next(createError(500, error.message));
         }
+    }
+
+    static async loginSiswa (req, res, next){
+        try {
+            const { username, email, password } = req.body;
+            const { userSiswa, accessToken, refreshToken } = await accountGuruKaryawanService.loginSiswa(username, email, password);
+            console.log('user', userSiswa);
+            // store refresh token in redis
+            const redisKey = `refreshToken:${userSiswa.id}`;
+
+            
+            // Check if the user is already logged in by checking the existence of the refresh token in Redis
+            console.log('redis key:', redisKey);
+
+
+            let existingToken = await redisClient.get(redisKey);
+            console.log('redis token: ', existingToken);
+
+            if (existingToken) {
+                return res.status(400).json({
+                    message: 'User is already logged in',
+                });
+            }
+            
+            await redisClient.set(redisKey, refreshToken, {
+                EX: 60 * 60,
+            });
+
+            const responseData = {
+                accessToken,
+                refreshToken,
+                userSiswa
+            }
+            res.send(responseInfo('Login SuccessFully', responseData));
+        } catch (error) {
+            console.error('Error in login: ', error);
+            next(createError(401, error.message));
+        }
+
+
     }
 }
 

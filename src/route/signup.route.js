@@ -9,6 +9,7 @@ const routes = [
     { path: '/signupGuru', method: 'post', validation: signupguruValidation.createSignupguru, handler: signupcontroller.signup},
     { path: '/registration', method: 'post', validation: signupguruValidation.registrationGuru, handler: registrationController.registrationGuru},
     { path: '/all', method:'get', handler:registrationController.dataGuru},
+    { path: '/signupSiswa', method: 'post', validation: signupguruValidation.createSignUpSiswa, handler: signupcontroller.signupSiswa},
 ];
 
 
