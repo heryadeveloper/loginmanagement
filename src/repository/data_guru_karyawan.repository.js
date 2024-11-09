@@ -16,7 +16,8 @@ async function signUpGuru(nama, email, username, password, role_name, id_role){
     }
 }
 
-async function registrationGuru(nama, alamat, tahun_masuk, email, no_hp, nama_role, id_role, file_name, file_path, jabatan, mata_pelajaran){
+async function registrationGuru(nama, alamat, tahun_masuk, email, no_hp, nama_role, id_role, file_name, file_path, jabatan, kode_guru){
+    console.log('kode guru repository: ', kode_guru);
     try {
         const indonesiaTime = moment().tz('Asia/Jakarta').format('YYYY-MM-DD HH:mm:ss'); // Use 'Asia/Makassar' for WITA or 'Asia/Jayapura' for WIT
         const registration = await db.data_guru_karyawan.create({
@@ -30,8 +31,8 @@ async function registrationGuru(nama, alamat, tahun_masuk, email, no_hp, nama_ro
             file_name,
             file_path,
             jabatan,
-            mata_pelajaran,
             created_at: indonesiaTime,
+            kode_guru: kode_guru
         });
         return registration.get({ plain:true });
     } catch (error) {
@@ -42,7 +43,7 @@ async function registrationGuru(nama, alamat, tahun_masuk, email, no_hp, nama_ro
 async function getDataGuru(){
     try {
         const data = await db.data_guru_karyawan.findAll({
-            attributes:['nama', 'jabatan', 'mata_pelajaran', 'tahun_masuk'],
+            attributes:['nama', 'jabatan', 'kode_guru', 'tahun_masuk'],
             order:[['nama','ASC']],
             raw: true,
         })
@@ -65,9 +66,23 @@ async function getRole(id_role){
         throw error;
     }
 }
+
+async function getValidationEmail(email){
+    try {
+        const dataValidasiEmail = await db.data_guru_karyawan.findOne({
+            where: {email},
+            raw: true,
+        })
+        return dataValidasiEmail;
+    } catch (error) {
+        console.error('Error get data role', error);
+        throw error;
+    }
+}
 module.exports = {
     signUpGuru,
     registrationGuru,
     getDataGuru,
-    getRole
+    getRole,
+    getValidationEmail
 }

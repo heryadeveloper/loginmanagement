@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        mata_pelajaran:{
+        kode_guru:{
             type: DataTypes.STRING,
             allowNull: true,
         }

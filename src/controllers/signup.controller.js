@@ -19,9 +19,19 @@ const signupSiswa = catchAsync(async(req, res) => {
     } else {
         res.send(errorExpectationFailed('Cannot created Account Siswa', null));
     }
+});
+
+const listGuru = catchAsync(async(req, res) => {
+    const dataListGuru = await signUpService.getListGuru();
+    if (dataListGuru) {
+        res.send(responseInfo('Success Get List Data Guru', dataListGuru));
+    } else {
+        res.send(errorExpectationFailed('Cannot Get Data', null));
+    }
 })
 
 module.exports = {
     signup,
-    signupSiswa
+    signupSiswa,
+    listGuru
 }

@@ -25,7 +25,7 @@ async function getAccountByEmailGuru(username, email){
             username: username,
             email: email,
         },
-        attributes:['id','username','email','password', 'role_name'],
+        attributes:['id','username','email','password', 'role_name', 'kode_guru'],
         raw: true,
     });
     return accountGuru;
@@ -40,12 +40,28 @@ async function getValidasiEmail(email){
     return validasiEmail;
 }
 
-async function insertAccount(nama, email, username, password, role_name, id_role){
+async function insertAccount(nama, email, username, password, role_name, id_role, kode_guru){
     try {
         const insertData = await db.account_guru_karyawan.create({
-            nama, email, username, password, role_name, flag_active:"ACTIVE", created_at: new Date(), id_role,
+            nama, email, username, password, role_name, flag_active:"ACTIVE", created_at: new Date(), id_role, kode_guru,
         });
         return insertData.get({ plain:true });
+    } catch (error) {
+        console.error('Error when insert table account_guru_karyawan', error);
+        throw error;
+    }
+}
+
+async function getListGuru(){
+    try {
+        const listGuru = await db.account_guru_karyawan.findAll({
+            where: {
+                id_role: 2
+            },
+            attributes:['nama', 'kode_guru', 'email'],
+            raw: true,
+        });
+        return listGuru;
     } catch (error) {
         console.error('Error when insert table account_guru_karyawan', error);
         throw error;
@@ -57,5 +73,6 @@ module.exports = {
     getDataAccountGuru,
     getAccountByEmailGuru,
     getValidasiEmail,
-    insertAccount
+    insertAccount,
+    getListGuru
 }

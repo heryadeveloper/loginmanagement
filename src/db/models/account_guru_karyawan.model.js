@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
         id_role:{
             type: DataTypes.INTEGER,
             allowNull: false,
+        },
+        kode_guru: {
+            type: DataTypes.STRING,
+            allowNull: false,
         }
     },{
         tableName: 'account_guru_karyawan'

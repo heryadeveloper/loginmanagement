@@ -21,7 +21,7 @@ const registrationGuru = {
         id_role: Joi.number().required(),
         file_name: Joi.string().allow('', null),
         file_path: Joi.string().allow('', null),
-        mata_pelajaran: Joi.string().allow('', null),
+        kode_guru: Joi.string(),
     }),
 };
 
