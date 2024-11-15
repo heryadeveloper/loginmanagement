@@ -14,7 +14,6 @@ app.use(bodyParser.json());
 
 // connect to redis config
 app.use((req, res, next) => {
-    console.log('init redis');
     req.redisClient = redisClient;
     next();
 })

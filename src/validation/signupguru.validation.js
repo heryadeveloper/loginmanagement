@@ -15,6 +15,7 @@ const registrationGuru = {
     body: Joi.object().keys({
         nama: Joi.string().required(),
         alamat: Joi.string().required(),
+        sex: Joi.number().required(),
         tahun_masuk: Joi.string().required(),
         email: Joi.string().required(),
         no_hp: Joi.string().required(),
@@ -36,6 +37,12 @@ const createSignUpSiswa = {
         nisn: Joi.string().required(),
         kelas_saat_ini: Joi.string().required(),
         tahun_masuk: Joi.string().required()
+    })
+}
+
+const deleteDataGuru = {
+    body: Joi.object().keys({
+        
     })
 }
 

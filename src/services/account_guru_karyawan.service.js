@@ -4,7 +4,7 @@ const db = require('../db/models');
 const JWT = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('../config/config');
-const { accountDataGuruKaryawanRepository, accountDataSiswaRepository } = require("../repository");
+const { accountDataGuruKaryawanRepository, accountDataSiswaRepository, dataGuruKaryawanRepository } = require("../repository");
 
 async function getAccountGuruLogin(req, res){
     try {
@@ -83,8 +83,23 @@ const loginSiswa = async(username, email, password) => {
     }
 }
 
+async function deleteDataGuru(req) {
+    try {
+        const {nama, kode_guru} = req.body;
+        await dataGuruKaryawanRepository.deleteDataGuru(nama, kode_guru);
+        return {
+            data: 'Success Delete Akun guru',
+            nama: nama
+        }
+    } catch (error) {
+        console.error('Error delete data guru in service');;
+        throw error;
+    }
+}
+
 module.exports = {
     getAccountGuruLogin,
     login,
-    loginSiswa
+    loginSiswa,
+    deleteDataGuru
 }

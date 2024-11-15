@@ -52,7 +52,7 @@ async function insertAccount(nama, email, username, password, role_name, id_role
     }
 }
 
-async function getListGuru(){
+async function  getListGuru(){
     try {
         const listGuru = await db.account_guru_karyawan.findAll({
             where: {
