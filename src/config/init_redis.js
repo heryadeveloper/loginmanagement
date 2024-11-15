@@ -1,31 +1,31 @@
 const { createClient } = require("redis");
 
-// const redisOptions = {
-//     db: process.env.REDIS_DB || 0,
-//     ...(process.env.REDIS_CLIENT === 'redis' && {
-//         socket: {
-//         port: process.env.REDIS_PORT || 6379,
-//         host: process.env.REDIS_HOST || '127.0.0.1',
-//         },
-//     }),
-//     ...(process.env.REDIS_CLIENT === 'predis' && {
-//         path: process.env.REDIS_PATH || '/tmp/redis.sock',
-//     }),
-// };
+const redisOptions = {
+    db: process.env.REDIS_DB || 0,
+    ...(process.env.REDIS_CLIENT === 'redis' && {
+        socket: {
+        port: process.env.REDIS_PORT || 6379,
+        host: process.env.REDIS_HOST || '127.0.0.1',
+        },
+    }),
+    ...(process.env.REDIS_CLIENT === 'predis' && {
+        path: process.env.REDIS_PATH || '/tmp/redis.sock',
+    }),
+};
 
-// const client = process.env.REDIS_SCHEME === 'unix'? createClient({
-//     ...redisOptions,
-//     socket: {
-//         path: process.env.REDIS_PATH,
-//     },
-//     }) : createClient(redisOptions);
-
-const client = createClient({
+const client = process.env.REDIS_SCHEME === 'unix'? createClient({
+    ...redisOptions,
     socket: {
-        port: 6379,
-        host: '127.0.0.1',
+        path: process.env.REDIS_PATH,
     },
-});
+    }) : createClient(redisOptions);
+
+// const client = createClient({
+//     socket: {
+//         port: 6379,
+//         host: '127.0.0.1',
+//     },
+// });
 
 client.on('connect', () => {
     console.log('Connected to Redis');
