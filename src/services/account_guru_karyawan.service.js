@@ -86,10 +86,17 @@ const loginSiswa = async(username, email, password) => {
 async function deleteDataGuru(req) {
     try {
         const {nama, kode_guru} = req.body;
-        await dataGuruKaryawanRepository.deleteDataGuru(nama, kode_guru);
-        return {
-            data: 'Success Delete Akun guru',
-            nama: nama
+        const resultdelete = await dataGuruKaryawanRepository.deleteDataGuru(nama, kode_guru);
+        console.log('result : ', resultdelete);
+        if (resultdelete.data != null) {
+            return {
+                data: 'Success Delete Akun guru',
+                nama: nama
+            }
+        } else {
+            return {
+                data: null
+            }
         }
     } catch (error) {
         console.error('Error delete data guru in service');;

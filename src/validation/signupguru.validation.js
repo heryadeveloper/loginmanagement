@@ -42,12 +42,14 @@ const createSignUpSiswa = {
 
 const deleteDataGuru = {
     body: Joi.object().keys({
-        
+        nama: Joi.string().required(),
+        kode_guru: Joi.string().required()
     })
 }
 
 module.exports = {
     createSignupguru,
     registrationGuru,
-    createSignUpSiswa
+    createSignUpSiswa,
+    deleteDataGuru
 }

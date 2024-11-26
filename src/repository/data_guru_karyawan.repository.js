@@ -106,7 +106,13 @@ async function deleteDataGuru(nama, kode_guru) {
                 type: QueryTypes.DELETE
             }
         );
-        return result;
+        if (result) {
+            return result
+        } else {
+            return {
+                data : null
+            }
+        }
     } catch (error) {
         console.error('Error delete data guru');
         throw error;
