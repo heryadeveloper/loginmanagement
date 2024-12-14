@@ -7,7 +7,6 @@ async function registrationGuru(req, res){
         console.log('kode guru : ', kode_guru);
         // first get nama role from id role
         const dataRole = await dataGuruKaryawanRepository.getRole(id_role);
-        console.log('data role : ', dataRole);
         const insertNewDataGuru = await dataGuruKaryawanRepository.registrationGuru(nama, alamat, sex, tahun_masuk, email, no_hp, dataRole.nama_role, id_role, file_name, file_path, dataRole.nama_role, kode_guru);
         return insertNewDataGuru;
     } catch (error) {

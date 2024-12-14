@@ -61,7 +61,9 @@ class AuthController {
 
     static async logout(req, res, next){
         try {
+            console.log('step in controller logout');
             const authHeader = req.headers.authorization;
+        
             if (!authHeader){
                 return res.status(400).json({
                     message: 'Authorization header not provided'
@@ -69,9 +71,18 @@ class AuthController {
             }
 
             const token = authHeader.split(' ')[1];
-            const payload = JWT.verify(token, config.refreshToken);
+            const { deviceID } = req.body;
 
-            const redisKey = `refreshToken:${payload.userId}`;
+            if (!deviceID) {
+                return res.status(400).json({
+                    message: 'Device ID is required',
+                });
+            }
+
+            const payload = JWT.verify(token, config.refreshToken);
+        
+            const redisKey = `refreshToken:${payload.userId}:${deviceID}`;
+        
             await redisClient.del(redisKey);
 
             res.status(200).json({ message: 'Logout successful'});
