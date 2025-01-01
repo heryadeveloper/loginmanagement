@@ -50,7 +50,7 @@ async function getDataGuru(){
                 a.jabatan ,
                 a.kode_guru ,
                 a.tahun_masuk ,
-                b.email from data_guru_karyawan a
+                a.email from data_guru_karyawan a
                 left join account_guru_karyawan b on
                 a.nama = b.nama`,{
                     type: QueryTypes.SELECT
@@ -91,28 +91,35 @@ async function getValidationEmail(email){
 
 async function deleteDataGuru(nama, kode_guru) {
     try {
-        const result = await db.sequelize.query(
-            `delete a, b
-                from data_guru_karyawan a
-                left join account_guru_karyawan b on
-                a.nama = b.nama
-                and a.kode_guru = b.kode_guru
-                where a.nama = :nama
-                and a.kode_guru = :kode_guru`,{
-                    replacements: {
-                        nama: nama,
-                        kode_guru: kode_guru
+        // Delete from account_guru_karyawan
+        const resultAccount = await db.sequelize.query(
+            `DELETE FROM account_guru_karyawan WHERE nama = :nama AND kode_guru = :kode_guru`,
+            {
+                replacements: {
+                    nama: nama,
+                    kode_guru: kode_guru
                 },
                 type: QueryTypes.DELETE
             }
         );
-        if (result) {
-            return result
-        } else {
-            return {
-                data : null
+
+        // Delete from data_guru_karyawan
+        const resultData = await db.sequelize.query(
+            `DELETE FROM data_guru_karyawan WHERE nama = :nama AND kode_guru = :kode_guru`,
+            {
+                replacements: {
+                    nama: nama,
+                    kode_guru: kode_guru
+                },
+                type: QueryTypes.DELETE
             }
-        }
+        );
+
+        // Return results
+        return {
+            resultAccount,
+            resultData
+        };
     } catch (error) {
         console.error('Error delete data guru');
         throw error;

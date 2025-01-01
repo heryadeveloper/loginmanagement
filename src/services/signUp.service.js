@@ -6,17 +6,17 @@ const { encryptData, checkPasswordMatch } = require('../utils/auth');
 const { accountDataGuruKaryawanRepository, accountDataSiswaRepository, dataGuruKaryawanRepository } = require('../repository');
 
 async function signUpAccountGuru(req, res){
-    const {nama, email, username, password, role_name, id_role} = req.body;
+    const {nama, email, username, password, role_name, id_role, kode_guru} = req.body;
     try {
         console.log("proccesing service sign up");
         const hashedPassword = await encryptData(password);
         const account = await getValidasiEmail(email);
-        const dataEmail = await dataGuruKaryawanRepository.getValidationEmail(email);
+        // const dataEmail = await dataGuruKaryawanRepository.getValidationEmail(email);
         if (account) {
             throw new ApiError(httpStatus.CONFLICT, 'Email sudah terdaftar');
         }
 
-        const insertAccount = await accountDataGuruKaryawanRepository.insertAccount(nama, email, username, hashedPassword, role_name, id_role, dataEmail.kode_guru);
+        const insertAccount = await accountDataGuruKaryawanRepository.insertAccount(nama, email, username, hashedPassword, role_name, id_role, kode_guru);
         return insertAccount;
     } catch (error) {
         console.error('Error in service signup', error);
