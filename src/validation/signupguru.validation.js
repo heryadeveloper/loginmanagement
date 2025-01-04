@@ -48,9 +48,23 @@ const deleteDataGuru = {
     })
 }
 
+const updateDataGuru = {
+    body: Joi.object().keys({
+        id: Joi.number(),
+        nama: Joi.string(),
+        alamat: Joi.string(),
+        email: Joi.string(),
+        no_hp: Joi.string(),
+        nama_role: Joi.string(),
+        id_role: Joi.number(),
+        kode_guru: Joi.string(),
+    }),
+}
+
 module.exports = {
     createSignupguru,
     registrationGuru,
     createSignUpSiswa,
-    deleteDataGuru
+    deleteDataGuru,
+    updateDataGuru
 }

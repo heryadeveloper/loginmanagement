@@ -23,7 +23,6 @@ const dataGuru = catchAsync(async(req, res) => {
 
 const deleteGuru = catchAsync(async(req, res) => {
     const deletedGuru = await accountGuruKaryawanService.deleteDataGuru(req);
-    console.log('delete guru', deletedGuru);
     if (deletedGuru.data != null) {
         res.send(responseInfo('Success get data guru', deletedGuru));
     } else if (deletedGuru.data == null) {
@@ -33,8 +32,20 @@ const deleteGuru = catchAsync(async(req, res) => {
     }
 });
 
+const updateGuru = catchAsync(async(req, res) => {
+    const updateDataGuru = await accountGuruKaryawanService.updateDataGuru(req);
+    if (updateDataGuru) {
+        res.send(responseInfo('Success update data guru', updateDataGuru));
+    } else if(updateDataGuru.data === null){
+        res.send(responseInfo('Data Guru not found', updateDataGuru));
+    }else{
+        res.send(expectationFailed('Cannot Update Data', null));
+    }
+});
+
 module.exports = {
     registrationGuru,
     dataGuru,
-    deleteGuru
+    deleteGuru,
+    updateGuru
 }

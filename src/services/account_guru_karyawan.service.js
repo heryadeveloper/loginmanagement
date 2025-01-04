@@ -99,7 +99,28 @@ async function deleteDataGuru(req) {
             }
         }
     } catch (error) {
-        console.error('Error delete data guru in service');;
+        console.error('Error delete data guru in service');
+        throw error;
+    }
+}
+
+async function updateDataGuru(req) {
+    try {
+        const {id, nama, alamat, email, no_hp, kode_guru, nama_role, id_role} = req.body;
+        const resultUpdate = await dataGuruKaryawanRepository.updateDataGuru(id, nama, alamat, email, no_hp, kode_guru, nama_role, id_role);
+        console.log('result update: ', resultUpdate.message);
+        if (resultUpdate.data != null) {
+            return {
+                data: resultUpdate.message,
+                nama: nama
+            }
+        } else {
+            return {
+                data: null
+            }
+        }
+    } catch (error) {
+        console.error('Error update data guru in service');
         throw error;
     }
 }
@@ -108,5 +129,6 @@ module.exports = {
     getAccountGuruLogin,
     login,
     loginSiswa,
-    deleteDataGuru
+    deleteDataGuru,
+    updateDataGuru
 }

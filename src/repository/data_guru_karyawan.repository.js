@@ -50,7 +50,11 @@ async function getDataGuru(){
                 a.jabatan ,
                 a.kode_guru ,
                 a.tahun_masuk ,
-                a.email from data_guru_karyawan a
+                a.email,
+                a.no_hp,
+                a.alamat,
+                a.nama_role,
+                a.id_role from data_guru_karyawan a
                 left join account_guru_karyawan b on
                 a.nama = b.nama`,{
                     type: QueryTypes.SELECT
@@ -125,11 +129,49 @@ async function deleteDataGuru(nama, kode_guru) {
         throw error;
     }
 }
+
+async function updateDataGuru(id, nama, alamat, email, no_hp, kode_guru, nama_role, id_role) {
+    try {
+        const resultData = await db.sequelize.query(
+            `update data_guru_karyawan set nama= :nama, alamat= :alamat, email= :email, no_hp= :no_hp, 
+                kode_guru= :kode_guru , nama_role= :nama_role, id_role= :id_role, updated_at= now() where id = :id`,
+                {
+                    replacements: {
+                        id: id,
+                        nama: nama,
+                        alamat: alamat,
+                        email: email,
+                        no_hp: no_hp,
+                        kode_guru: kode_guru,
+                        nama_role: nama_role,
+                        id_role: id_role,
+                    },
+                    type: QueryTypes.UPDATE
+                }
+        );
+        let message = '';
+        if (resultData[1] > 0) {
+            message = `Update berhasil! ${resultData[1]} baris diperbarui.`;
+            console.log(`Update berhasil! ${resultData[1]} baris diperbarui.`);
+        } else {
+            mesage = 'Tidak ada baris yang diperbarui.';
+            console.log('Tidak ada baris yang diperbarui.');
+        }
+        return {
+            message: message,
+            data: resultData[1]
+        }
+    } catch (error) {
+        console.error('Error update data guru');
+        throw error;
+    }
+}
 module.exports = {
     signUpGuru,
     registrationGuru,
     getDataGuru,
     getRole,
     getValidationEmail,
-    deleteDataGuru
+    deleteDataGuru,
+    updateDataGuru
 }
