@@ -25,7 +25,7 @@ async function getAccountByEmailGuru(username, email){
             username: username,
             email: email,
         },
-        attributes:['id','username','email','password', 'role_name', 'kode_guru'],
+        attributes:['id','username','email','password', 'role_name', 'kode_guru', 'tugas'],
         raw: true,
     });
     return accountGuru;
