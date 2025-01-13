@@ -9,6 +9,7 @@ const createSignupguru = {
         role_name: Joi.string().required(),
         id_role: Joi.number().required(),
         kode_guru: Joi.string().required(),
+        tugas: Joi.string(),
     }),
 };
 

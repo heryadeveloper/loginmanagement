@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         tugas: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         }
     },{
         tableName: 'account_guru_karyawan'
