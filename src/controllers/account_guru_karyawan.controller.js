@@ -94,11 +94,18 @@ class AuthController {
 
     static async loginSiswa (req, res, next){
         try {
-            const { username, email, password } = req.body;
+            const { username, email, password , deviceID} = req.body;
+            if (!deviceID) {
+                // Jika deviceID tidak ada, kirimkan error
+                return res.status(400).json({
+                    message: 'Device ID is required for login.',
+                });
+            }
+
             const { userSiswa, accessToken, refreshToken } = await accountGuruKaryawanService.loginSiswa(username, email, password);
-            console.log('user', userSiswa);
+
             // store refresh token in redis
-            const redisKey = `refreshToken:${userSiswa.id}`;
+            const redisKey = `refreshToken:${userSiswa.id}:${deviceID}`;
 
             
             // Check if the user is already logged in by checking the existence of the refresh token in Redis

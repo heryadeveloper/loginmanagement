@@ -136,7 +136,7 @@ async function updateDataGuru(id, nama, alamat, email, no_hp, kode_guru, nama_ro
             `update data_guru_karyawan set nama= :nama, alamat= :alamat, email= :email, no_hp= :no_hp, 
                 kode_guru= :kode_guru , nama_role= :nama_role, id_role= :id_role, updated_at= now() where id = :id`,
                 {
-                    replacements: {
+                     replacements: {
                         id: id,
                         nama: nama,
                         alamat: alamat,
@@ -166,6 +166,34 @@ async function updateDataGuru(id, nama, alamat, email, no_hp, kode_guru, nama_ro
         throw error;
     }
 }
+
+async function detailGuru(kode_guru) {
+    const resultData = await db.sequelize.query(
+        `select 
+            a.nama ,
+            a.alamat ,
+            a.email ,
+            a.no_hp ,
+            a.tahun_masuk ,
+            b.username ,
+            b.email ,
+            b.password,
+            b.kode_guru,
+            a.sex jenis_kelamin
+            from smknutulis.data_guru_karyawan a 
+            join smknutulis.account_guru_karyawan b
+            on a.kode_guru = b.kode_guru 
+            where b.kode_guru = :kode_guru`,
+            {
+                replacements: {
+                    kode_guru: kode_guru
+                },
+                type: QueryTypes.SELECT
+            }
+    );
+    console.log('return data : ', resultData);
+    return resultData;
+}
 module.exports = {
     signUpGuru,
     registrationGuru,
@@ -173,5 +201,6 @@ module.exports = {
     getRole,
     getValidationEmail,
     deleteDataGuru,
-    updateDataGuru
+    updateDataGuru,
+    detailGuru
 }

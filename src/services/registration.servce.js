@@ -25,7 +25,20 @@ async function dataGuru(req, res) {
     }
 }
 
+async function dataDetailGuru(req) {
+    const {kode_guru} = req.query;
+    try {
+        const dataDetail = dataGuruKaryawanRepository.detailGuru(kode_guru);
+        return dataDetail;
+    } catch (error) {
+        console.error('Error in registration service', error)
+        throw error;
+    }
+    
+}
+
 module.exports = {
     registrationGuru,
     dataGuru,
+    dataDetailGuru
 }

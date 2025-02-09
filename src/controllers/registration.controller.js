@@ -43,9 +43,21 @@ const updateGuru = catchAsync(async(req, res) => {
     }
 });
 
+const detailGuru = catchAsync(async(req, res) => {
+    const detailedGuru = await registrationService.dataDetailGuru(req)
+    if (detailedGuru) {
+        res.send(responseInfo('Success update data guru', detailedGuru));
+    } else if(detailedGuru.data === null){
+        res.send(responseInfo('Data Guru not found', detailedGuru));
+    }else{
+        res.send(expectationFailed('Cannot Update Data', null));
+    }
+});
+
 module.exports = {
     registrationGuru,
     dataGuru,
     deleteGuru,
-    updateGuru
+    updateGuru,
+    detailGuru
 }

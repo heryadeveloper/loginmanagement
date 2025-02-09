@@ -42,7 +42,6 @@ const validatePassword = async (inputPassword, storedPassword) => {
 };
 
 const login = async(username, email, password) => {
-    console.info("---> step in service login --->")
     const user = await accountDataGuruKaryawanRepository.getAccountByEmailGuru(username, email);
     if (!user) throw new Error('Invalid Email');
 

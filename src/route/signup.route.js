@@ -12,7 +12,8 @@ const routes = [
     { path: '/signupSiswa', method: 'post', validation: signupguruValidation.createSignUpSiswa, handler: signupcontroller.signupSiswa},
     { path: '/listGuru', method:'get', handler: signupcontroller.listGuru},
     { path: '/deleteGuru', method: 'post', validation: signupguruValidation.deleteDataGuru, handler: registrationController.deleteGuru},
-    { path: '/updateGuru', method: 'put', validation: signupguruValidation.updateDataGuru, handler: registrationController.updateGuru}
+    { path: '/updateGuru', method: 'put', validation: signupguruValidation.updateDataGuru, handler: registrationController.updateGuru},
+    { path: '/detailGuru', method: 'get', handler: registrationController.detailGuru},
 ];
 
 
