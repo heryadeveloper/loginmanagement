@@ -14,6 +14,8 @@ const routes = [
     { path: '/deleteGuru', method: 'post', validation: signupguruValidation.deleteDataGuru, handler: registrationController.deleteGuru},
     { path: '/updateGuru', method: 'put', validation: signupguruValidation.updateDataGuru, handler: registrationController.updateGuru},
     { path: '/detailGuru', method: 'get', handler: registrationController.detailGuru},
+    { path: '/generateAkunSiswa', method: 'post', validation: signupguruValidation.generateAkunSiswa, handler: signupcontroller.generateAkunSiswa},
+    { path: '/download', method: 'get', handler: signupcontroller.downloadHasilGenerate}
 ];
 
 

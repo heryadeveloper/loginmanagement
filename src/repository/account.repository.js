@@ -28,7 +28,18 @@ async function getAccountByEmailSiswa(username, email) {
     }
 }
 
+async function insertBulkAccountSiswa(data) {
+    const values = data.map(({ username, email, nama, password, role, role_name, flag_active, nisn, kelas_saat_ini, tahun_masuk }) => 
+        `('${username}', '${email}', '${nama}', '${password}', '${role}', '${role_name}','${flag_active}', '${nisn}', '${kelas_saat_ini}', '${tahun_masuk}')`
+    ).join(", ");
+
+    const query = `INSERT INTO account (username, email, nama, password, role, role_name,flag_active, nisn, kelas_saat_ini, tahun_masuk) VALUES ${values}`;
+    
+    return await db.query(query);
+}
+
 module.exports = {
     insertAccountSiswa,
-    getAccountByEmailSiswa
+    getAccountByEmailSiswa,
+    insertBulkAccountSiswa
 }

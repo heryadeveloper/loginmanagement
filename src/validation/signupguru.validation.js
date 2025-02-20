@@ -62,10 +62,19 @@ const updateDataGuru = {
     }),
 }
 
+const generateAkunSiswa = {
+    body: Joi.object().keys({
+        kelas: Joi.string().required(),
+        tahun_ajaran: Joi.string().required()
+    })
+}
+
+
 module.exports = {
     createSignupguru,
     registrationGuru,
     createSignUpSiswa,
     deleteDataGuru,
-    updateDataGuru
+    updateDataGuru,
+    generateAkunSiswa
 }

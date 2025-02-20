@@ -1,7 +1,9 @@
+const path = require("path");
 const { signUpService } = require("../services");
 const catchAsync = require("../utils/catchAsync");
 const errorExpectationFailed = require('../utils/errorExpectationFailed');
 const responseInfo = require("../utils/responseInfo");
+const fs = require("fs");
 
 const signup = catchAsync(async(req, res) => {
     const signupdata = await signUpService.signUpAccountGuru(req);
@@ -30,8 +32,36 @@ const listGuru = catchAsync(async(req, res) => {
     }
 })
 
+const generateAkunSiswa = catchAsync(async(req, res) => {
+    const data = await signUpService.generateAkunSiswa(req);
+    if (data) {
+        res.send(responseInfo('success generate akun siswa', data))
+    } else {
+        res.send(errorExpectationFailed('Cannot generate akun siswa', null));
+    }
+})
+
+const downloadHasilGenerate = catchAsync(async(req, res) => {
+    const { fileName } = req.query;
+    const filePath = path.join(__dirname, "../services/generated", fileName);
+    console.log('path: ', filePath);
+
+    if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ message: "File tidak ditemukan" });
+    }
+
+    res.download(filePath, fileName, (err) => {
+        if (err) {
+            console.error("Gagal mengunduh file:", err);
+            res.status(500).json({ message: "Gagal mengunduh file" });
+        }
+    });
+})
+
 module.exports = {
     signup,
     signupSiswa,
-    listGuru
+    listGuru,
+    generateAkunSiswa,
+    downloadHasilGenerate
 }
