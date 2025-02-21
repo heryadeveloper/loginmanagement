@@ -107,21 +107,32 @@ async function generateAkunSiswa(req) {
     }
 }
 
-async function generateExcel() {
-    const { fileName } = req.params;
-    const filePath = path.join(__dirname, "generated", fileName);
+async function generateExcel(data) {
+    const filePath = path.join(__dirname, "generated", `akun_siswa_${Date.now()}.xlsx`);
 
-    // Cek apakah file ada
-    if (!fs.existsSync(filePath)) {
-        return res.status(404).json({ message: "File tidak ditemukan" });
+    // Pastikan folder "generated" ada
+    if (!fs.existsSync(path.dirname(filePath))) {
+        fs.mkdirSync(path.dirname(filePath), { recursive: true });
     }
 
-    res.download(filePath, fileName, (err) => {
-        if (err) {
-            console.error("Gagal mengunduh file:", err);
-            res.status(500).json({ message: "Gagal mengunduh file" });
-        }
-    });
+    // Buat worksheet dari data
+    const worksheet = XLSX.utils.json_to_sheet(data.map(({ username, email, nama, nisn, kelas_saat_ini, tahun_masuk }) => ({
+        Username: username,
+        Email: email,
+        Nama: nama,
+        NISN: nisn,
+        Kelas: kelas_saat_ini,
+        Tahun_Masuk: tahun_masuk,
+    })));
+
+    // Buat workbook dan tambahkan worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "AkunSiswa");
+
+    // Simpan file Excel
+    XLSX.writeFile(workbook, filePath);
+
+    return filePath;
 }
 
 
