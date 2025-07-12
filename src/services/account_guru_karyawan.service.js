@@ -56,23 +56,23 @@ const login = async(username, email, password) => {
 
 const loginSiswa = async(username, email, password) => {
     try {
-        const userSiswa = await accountDataSiswaRepository.getAccountByEmailSiswa(username, email);
+        const user = await accountDataSiswaRepository.getAccountByEmailSiswa(username, email);
       
-        if (!userSiswa) {
+        if (!user) {
             throw new Error('Invalid Email');
         }
 
-        const isPasswordMatch = await validatePassword(password, userSiswa.password);
+        const isPasswordMatch = await validatePassword(password, user.password);
         if (!isPasswordMatch) {
             throw new Error('Invalid Password');
         }
 
-        const accessToken = generateAccessToken(userSiswa);
+        const accessToken = generateAccessToken(user);
         
-        const refreshToken = generateRefreshToken(userSiswa);
+        const refreshToken = generateRefreshToken(user);
   
         return {
-            userSiswa,
+            user,
             accessToken,
             refreshToken
         }

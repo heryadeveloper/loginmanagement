@@ -102,10 +102,10 @@ class AuthController {
                 });
             }
 
-            const { userSiswa, accessToken, refreshToken } = await accountGuruKaryawanService.loginSiswa(username, email, password);
+            const { user, accessToken, refreshToken } = await accountGuruKaryawanService.loginSiswa(username, email, password);
 
             // store refresh token in redis
-            const redisKey = `refreshToken:${userSiswa.id}:${deviceID}`;
+            const redisKey = `refreshToken:${user.id}:${deviceID}`;
 
             
             // Check if the user is already logged in by checking the existence of the refresh token in Redis
@@ -128,7 +128,7 @@ class AuthController {
             const responseData = {
                 accessToken,
                 refreshToken,
-                userSiswa
+                user
             }
             res.send(responseInfo('Login SuccessFully', responseData));
         } catch (error) {
